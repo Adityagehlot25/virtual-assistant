@@ -1,0 +1,17 @@
+node_modules/
+.env
+build/
+dist/
+logs/
+*.log
+.DS_Store
+.vscode/
+coverage/
+*.local
+*.cache
+*.tmp
+*.swp
+*.swo
+*.idea/
+frontend/node_modules/
+backend/node_modules/
