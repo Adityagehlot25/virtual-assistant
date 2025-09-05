@@ -6,12 +6,15 @@ import { UserDataContext } from '../context/userContext.jsx'
 function SignUp() {
     const { server } = useContext(UserDataContext)
     const [showPassword, setShowPassword] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         try {
             const response = await fetch(`${server}/api/user/signup`, {
                 method: 'POST',
@@ -26,11 +29,17 @@ function SignUp() {
 
             if (response.ok) {
                 console.log('User registered successfully:', data)
+                setErrorMessage('') // clear error
+                setLoading(false)
             } else {
                 console.error('Error registering user:', data)
+                setErrorMessage(data.message || 'An error occurred. Please try again.')
+                setLoading(false)
             }
         } catch (error) {
             console.error('Network or server error:', error)
+            setErrorMessage('Network error. Please try again.')
+            setLoading(false)
         }
     }
 
@@ -82,16 +91,18 @@ function SignUp() {
                     </span>
                 </div>
 
+                {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+
                 <button
                     type="submit"
-                    className='w-full p-3 rounded-lg bg-blue-500 text-white font-semibold hover:bg-blue-600'
+                    className='w-full p-3 rounded-lg bg-blue-500 text-white font-semibold hover:bg-blue-600' disabled={loading}
                 >
-                    Register
+                    {loading ? 'Loading...' : 'Register'}
                 </button>
 
                 <p className="text-gray-300 text-md mt-3">
                     Already have an account?{" "}
-                    <a href="/login" className="text-blue-600 hover:underline">
+                    <a href="/signin" className="text-blue-600 hover:underline">
                         Login
                     </a>
                 </p>
