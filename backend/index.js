@@ -1,7 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import userRouter from './routes/user.routes.js';
+import userRouter from './routes/auth.routes.js';
+import userDetailsRouter from './routes/user.routes.js';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/user', userRouter);
+app.use('/api/userdetails', userDetailsRouter);
 
 // start server
 const port = process.env.PORT || 8000; // ✅ fallback to 8000

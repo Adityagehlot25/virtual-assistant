@@ -68,10 +68,18 @@ export const login = async (req, res) => {
             sameSite: "Strict",
             secure: false
         });
-        return res.status(200).json({ message: "Login successful" });
-    } catch (error) {
-        return res.status(500).json({ message: "Login error" });
-    }
+        res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user._id,
+        username: user.username, // or "name" depending on schema
+        email: user.email
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Login error" });
+  }
 }
 
 export const logout = (req, res) => {
